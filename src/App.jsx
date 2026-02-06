@@ -3,7 +3,6 @@ import { Menu } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import { Dashboard } from './components/Dashboard';
 import { ModuleView } from './components/ModuleView';
-import { AITutor } from './components/AITutor';
 import { ProgressRing } from './components/ProgressRing';
 import { TRACKS } from './data/tracks';
 import { MODULES } from './data/modules';
@@ -14,9 +13,8 @@ function App() {
   const [view, setView] = useState('dashboard');
   const [currentModuleId, setCurrentModuleId] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [tutorOpen, setTutorOpen] = useState(false);
 
-  const { progress, updateProgress, isLocked, totalMastery } = useProgress(MODULES.length);
+  const { progress, updateProgress, totalMastery } = useProgress(MODULES.length);
 
   const currentModule = currentModuleId
     ? MODULES.find((module) => module.id === currentModuleId) || null
@@ -26,7 +24,6 @@ function App() {
     : null;
 
   const handleSelectModule = (moduleId) => {
-    if (isLocked(moduleId)) return;
     setCurrentModuleId(moduleId);
     setView('module');
     setSidebarOpen(false);
@@ -76,7 +73,6 @@ function App() {
           tracks={TRACKS}
           modules={MODULES}
           progress={progress}
-          isLocked={isLocked}
           currentModule={currentModuleId}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
@@ -89,7 +85,6 @@ function App() {
               tracks={TRACKS}
               modules={MODULES}
               progress={progress}
-              isLocked={isLocked}
               totalMastery={totalMastery}
               onSelectModule={handleSelectModule}
             />
@@ -101,19 +96,11 @@ function App() {
               track={currentTrack}
               questions={QUIZZES[currentModule.id] || []}
               onQuizComplete={handleQuizComplete}
-              onOpenTutor={() => setTutorOpen(true)}
             />
           )}
         </main>
       </div>
 
-      <AITutor
-        moduleId={currentModule?.id || 1}
-        moduleTitle={currentModule?.title || 'The Fundamental Problem'}
-        questions={QUIZZES[currentModule?.id] || []}
-        isOpen={tutorOpen}
-        onClose={() => setTutorOpen(false)}
-      />
     </div>
   );
 }

@@ -49,9 +49,7 @@ export function useProgress(totalModules) {
     }));
   };
 
-  const isLocked = (moduleId) => {
-    return moduleId > 1 && (!progress[moduleId - 1] || progress[moduleId - 1].mastery < 70);
-  };
+  const isLocked = () => false;
 
   const totalMastery = useMemo(() => {
     const completed = Object.entries(progress).filter(([moduleId, item]) => {

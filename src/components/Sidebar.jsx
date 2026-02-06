@@ -1,4 +1,4 @@
-import { X, BookOpen, Layers, Briefcase, Award, Lock, Check } from 'lucide-react';
+import { X, BookOpen, Layers, Briefcase, Award, Check } from 'lucide-react';
 
 const ICONS = { BookOpen, Layers, Briefcase, Award };
 
@@ -6,7 +6,6 @@ export function Sidebar({
   tracks,
   modules,
   progress,
-  isLocked,
   currentModule,
   isOpen,
   onClose,
@@ -48,29 +47,24 @@ export function Sidebar({
                 </div>
                 <div className="space-y-1">
                   {trackModules.map(module => {
-                    const locked = isLocked(module.id);
                     const completed = progress[module.id]?.completed;
                     const isCurrent = currentModule === module.id;
 
                     return (
                       <button
                         key={module.id}
-                        onClick={() => !locked && onSelectModule(module.id)}
-                        disabled={locked}
+                        onClick={() => onSelectModule(module.id)}
                         className={`
                           w-full text-left px-3 py-2 rounded-lg text-sm transition-colors
                           flex items-center justify-between
-                          ${locked
-                            ? 'text-slate-600 cursor-not-allowed'
-                            : isCurrent
-                              ? 'bg-blue-600 text-white'
-                              : 'text-slate-300 hover:bg-slate-700'
+                          ${isCurrent
+                            ? 'bg-blue-600 text-white'
+                            : 'text-slate-300 hover:bg-slate-700'
                           }
                         `}
                       >
                         <span className="truncate">{module.id}. {module.title}</span>
-                        {locked && <Lock size={14} className="text-slate-600 flex-shrink-0" />}
-                        {completed && !locked && <Check size={14} className="text-emerald-400 flex-shrink-0" />}
+                        {completed && <Check size={14} className="text-emerald-400 flex-shrink-0" />}
                       </button>
                     );
                   })}

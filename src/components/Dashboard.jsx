@@ -1,4 +1,4 @@
-import { BookOpen, Layers, Briefcase, Award, Lock, Check } from 'lucide-react';
+import { BookOpen, Layers, Briefcase, Award, Check } from 'lucide-react';
 
 const ICONS = { BookOpen, Layers, Briefcase, Award };
 const COLORS = {
@@ -8,7 +8,7 @@ const COLORS = {
   amber: 'from-amber-500 to-amber-600'
 };
 
-export function Dashboard({ tracks, modules, progress, isLocked, totalMastery, onSelectModule }) {
+export function Dashboard({ tracks, modules, progress, totalMastery, onSelectModule }) {
   const completedModules = modules.filter(module => progress[module.id]?.completed).length;
 
   return (
@@ -35,8 +35,8 @@ export function Dashboard({ tracks, modules, progress, isLocked, totalMastery, o
           <div className="text-3xl font-bold text-blue-400">12+ hrs</div>
         </div>
         <div className="bg-slate-800 rounded-xl p-6">
-          <div className="text-slate-400 text-sm mb-1">Pass Requirement</div>
-          <div className="text-3xl font-bold text-amber-400">70%</div>
+          <div className="text-slate-400 text-sm mb-1">Learning Tracks</div>
+          <div className="text-3xl font-bold text-amber-400">{tracks.length}</div>
         </div>
       </div>
 
@@ -59,27 +59,15 @@ export function Dashboard({ tracks, modules, progress, isLocked, totalMastery, o
 
             <div className="grid md:grid-cols-3 gap-4">
               {trackModules.map(module => {
-                const locked = isLocked(module.id);
                 const completed = progress[module.id]?.completed;
                 const mastery = Math.max(0, Math.min(100, progress[module.id]?.mastery || 0));
 
                 return (
                   <div
                     key={module.id}
-                    onClick={() => !locked && onSelectModule(module.id)}
-                    className={`
-                      relative bg-slate-800/50 rounded-xl p-5 border border-slate-700 transition-all
-                      ${locked
-                        ? 'opacity-50 cursor-not-allowed'
-                        : 'hover:border-slate-500 cursor-pointer hover:bg-slate-800'
-                      }
-                    `}
+                    onClick={() => onSelectModule(module.id)}
+                    className="relative bg-slate-800/50 rounded-xl p-5 border border-slate-700 transition-all hover:border-slate-500 cursor-pointer hover:bg-slate-800"
                   >
-                    {locked && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-slate-900/50 rounded-xl">
-                        <Lock size={32} className="text-slate-500" />
-                      </div>
-                    )}
                     <div className="flex items-start justify-between mb-3">
                       <span className="text-2xl font-bold text-slate-600">{module.id}</span>
                       {completed && (

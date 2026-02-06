@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import { ChevronRight, Clock, Target, Zap, MessageCircle, Play } from 'lucide-react';
+import { ChevronRight, Clock, Target, Zap, Play } from 'lucide-react';
 import { Quiz } from './Quiz';
 import { ProductTaxonomyTools } from './tools/ProductTaxonomyTools';
 import { SpiaTools } from './tools/SpiaTools';
 import { SequenceRiskTools } from './tools/SequenceRiskTools';
 
-export function ModuleView({ module, track, questions, onQuizComplete, onOpenTutor }) {
+export function ModuleView({ module, track, questions, onQuizComplete }) {
   const [tab, setTab] = useState('learn');
   const contentRef = useRef(null);
 
@@ -110,13 +110,6 @@ export function ModuleView({ module, track, questions, onQuizComplete, onOpenTut
 
           {/* Action Buttons */}
           <div className="flex gap-4 mt-6">
-            <button
-              onClick={onOpenTutor}
-              className="flex-1 py-4 bg-slate-800 border border-slate-700 rounded-xl text-white hover:bg-slate-700 transition-colors flex items-center justify-center gap-2"
-            >
-              <MessageCircle size={20} />
-              Ask AI Tutor
-            </button>
             <button
               onClick={() => setTab('quiz')}
               className="flex-1 py-4 bg-blue-600 rounded-xl text-white hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
